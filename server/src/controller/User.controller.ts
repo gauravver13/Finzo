@@ -22,21 +22,23 @@ const signUp = async (req: any, res: any) => {
             $or: [ { email }, { username } ]
         });
 
-        const hashedPassword = bcrypt.hash(password, 10); 
+        const hashedPassword = await bcrypt.hash(password, 10); 
+        console.log(hashedPassword)
 
         if(user) {
             return res.status(400).json({ message: "User already exists" });
         }
 
-        const newUser = new User({
+        const newUser = await User.create({
             firstName,
             lastName,
+            username,
             email,
-            hashedPassword
+            password: hashedPassword
         });
+        console.log("New user created: ",newUser)
+        return res.status(200).json({message: "User created successfully", newUser});
         
-        res.status(400).json({ message: "User created successfully" }, newUser);
-
     } catch (error: any) {
         return res.status(500).json({ message: error.message });
     }
@@ -45,9 +47,11 @@ const signUp = async (req: any, res: any) => {
 const signIn = async (req: any, res: any) => {
     try {
         const { username, email, password, } = req.body;
-    
-        if(!email || !username && !password) {
-            return res.status(400).json({ message: "All fields are required" });
+
+
+        // Improve this logic with username and emails
+        if(!email || !password) {
+            return res.status(400).json({ message: "Password and credentials are required" });
         }
         
         const user = await User.findOne({ 
@@ -74,5 +78,28 @@ const signIn = async (req: any, res: any) => {
     } catch (error: any) {
         return res.send(400, { message: error.message });
     }
+}
 
+const updateUser = async (req: any, res: any) => {
+    // app.patch("/user:id", (req, res) => {
+//     const { firstName, lastName, username, email, password } = req.body;
+//     // Check if the user exists
+//     // Update the user
+//     // Return the updated user
+// });
+    try {
+        const { username, email, password } = req.body;
+        const { id } = req.params;
+
+    } catch (error: any) {
+        return res.status(500).json({ message: error.message });    
+        
+    }
+}
+
+
+export {
+    signUp,
+    signIn,
+    updateUser
 }

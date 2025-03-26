@@ -1,7 +1,12 @@
 import express from "express";
 import connectDB from "./utils/db";
+import cors from "cors";
 
 const app = express();
+
+app.use(express.json());
+app.use(cors()) // this can be modified!!
+
 
 
 // DB Connection
@@ -13,36 +18,14 @@ connectDB().then(() => {
     process.exit(1);
 });
 
+import { authMiddleware } from "./middlewares/auth.middleware";
 
-// Export this in different folder called routes
-// Routes::
 
-app.post("/signup", (req, res) => {
-    const { firstName, lastName, username, email, password } = req.body;
-    // Check if the user already exists
-    // Create a new user
-    // Generate a JWT token
-    // Send the token to the user
-    // Return the user
+// imported Routes
+import userRouter from "./routes/user.routes";
 
-    
-});
-
-app.post("/signin", (req, res) => {
-    const { email, password } = req.body;
-    // Check if the user exists
-    // Generate a JWT token
-    // Send the token to the user
-    // Return the user
-
-});
-
-app.patch("/user:id", (req, res) => {
-    const { firstName, lastName, username, email, password } = req.body;
-    // Check if the user exists
-    // Update the user
-    // Return the updated user
-});
+// declared Routes:
+app.use("/api/v1/user", userRouter);
 
 
 
