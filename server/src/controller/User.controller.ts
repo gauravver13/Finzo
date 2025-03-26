@@ -1,6 +1,14 @@
 import User from "../models/User.model";
 import bcrypt from "bcryptjs";
 
+const generateAccessAndRefreshTokens = async (userId: string) => {
+    const user = await User.findById(userId) as any;
+    const accessToken = user.generateAccessToken(userId);
+    const refreshToken = user.generateRefreshToken(userId);
+
+    return { accessToken, refreshToken };
+}
+
 
 const signUp = async (req: any, res: any) => {
     try {
@@ -35,10 +43,6 @@ const signUp = async (req: any, res: any) => {
 }
 
 const signIn = async (req: any, res: any) => {
-    // Check if the user already exists
-    // Generate a JWT token
-    // Send the token to the user
-    // Return the user
     try {
         const { username, email, password, } = req.body;
     
@@ -60,7 +64,12 @@ const signIn = async (req: any, res: any) => {
             return res.status(400).json({ message: "Invalid password" });
         }
 
-        
+        const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id.toString());
+
+        return res.status(200)
+        .cookie("accessToken", accessToken)
+        .cookie("refreshToken", refreshToken)
+        .json({ accessToken, refreshToken, "User": user });
         
     } catch (error: any) {
         return res.send(400, { message: error.message });

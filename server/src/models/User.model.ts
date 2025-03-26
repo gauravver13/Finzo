@@ -47,7 +47,7 @@ userSchema.methods.generateAccessToken = function(){
         },
         process.env.ACCESS_TOKEN_SECRET as string,
         {
-            expiresIn: process.env.ACCESS_TOKEN_EXPIRY
+            expiresIn: parseInt(process.env.ACCESS_TOKEN_EXPIRY as string, 10)
         }
     )
 }
@@ -58,7 +58,7 @@ userSchema.methods.generateRefreshToken = function(){
         },
         process.env.REFRESH_TOKEN_SECRET as string,
         {
-            expiresIn: process.env.REFRESH_TOKEN_EXPIRY
+            expiresIn: parseInt(process.env.REFRESH_TOKEN_EXPIRY as string, 10)
         }
     )
 }
