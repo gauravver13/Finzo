@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const db_1 = __importDefault(require("./db"));
+const db_1 = __importDefault(require("./utils/db"));
 const app = (0, express_1.default)();
 // DB Connection
 (0, db_1.default)().then(() => {
