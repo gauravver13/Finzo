@@ -23,9 +23,11 @@ import { authMiddleware } from "./middlewares/auth.middleware";
 
 // imported Routes
 import userRouter from "./routes/user.routes";
+import accountRouter from "./routes/account.routes";
 
 // declared Routes:
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/account", authMiddleware, accountRouter);
 
 
 
