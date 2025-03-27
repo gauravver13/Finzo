@@ -1,5 +1,8 @@
+import { authMiddleware } from "../middlewares/auth.middleware";
+import Account from "../models/Account.model";
 import User from "../models/User.model";
 import bcrypt from "bcryptjs";
+
 
 const generateAccessAndRefreshTokens = async (userId: string) => {
     const user = await User.findById(userId) as any;
@@ -36,6 +39,14 @@ const signUp = async (req: any, res: any) => {
             email,
             password: hashedPassword
         });
+
+        const userId = newUser._id.toString();
+        
+        await Account.create({
+            user: userId,
+            balance: 1+Math.random()*10000
+        });
+
         console.log("New user created: ",newUser)
         return res.status(200).json({message: "User created successfully", newUser});
         
@@ -80,7 +91,7 @@ const signIn = async (req: any, res: any) => {
     }
 }
 
-const updateUser = async (req: any, res: any) => {
+const updateUser = async (req: any, authMiddleware: any, res: any) => {
     // app.patch("/user:id", (req, res) => {
 //     const { firstName, lastName, username, email, password } = req.body;
 //     // Check if the user exists
@@ -88,8 +99,10 @@ const updateUser = async (req: any, res: any) => {
 //     // Return the updated user
 // });
     try {
-        const { username, email, password } = req.body;
+        const { firstName, lastName, username, email, password } = req.body;
         const { id } = req.params;
+
+        // make it tomm..
 
     } catch (error: any) {
         return res.status(500).json({ message: error.message });    
@@ -97,9 +110,15 @@ const updateUser = async (req: any, res: any) => {
     }
 }
 
+// routes to get the users from the backend, preferably via firstName, lastName.
+const bulkUsers = async (req: any, res: any) => {
+    // 
+}
+
 
 export {
     signUp,
     signIn,
-    updateUser
+    updateUser,
+    bulkUsers
 }
