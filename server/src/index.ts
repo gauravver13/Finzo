@@ -27,6 +27,9 @@ import accountRouter from "./routes/account.routes";
 
 // declared Routes:
 app.use("/api/v1/user", userRouter);
+
+// here we can use authMiddleware to protect the routes for all routes related to account
+// we can either use middleware to each route or we can use it to the whole router as we doing it rn
 app.use("/api/v1/account", authMiddleware, accountRouter);
 
 
