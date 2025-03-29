@@ -43,7 +43,7 @@ const signUp = async (req: any, res: any) => {
         const userId = newUser._id.toString();
         
         await Account.create({
-            user: userId,
+            userId: userId,
             balance: 1+Math.random()*10000
         });
 
@@ -92,16 +92,15 @@ const signIn = async (req: any, res: any) => {
 }
 
 const updateUser = async (req: any, authMiddleware: any, res: any) => {
-    // app.patch("/user:id", (req, res) => {
+//     app.patch("/user:id", (req, res) => {
 //     const { firstName, lastName, username, email, password } = req.body;
 //     // Check if the user exists
 //     // Update the user
 //     // Return the updated user
-// });
+//     });
     try {
         const { firstName, lastName, username, email, password } = req.body;
         const { id } = req.params;
-
         // make it tomm..
 
     } catch (error: any) {

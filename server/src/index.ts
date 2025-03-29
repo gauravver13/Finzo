@@ -33,7 +33,6 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/account", authMiddleware, accountRouter);
 
 
-
 app.get("/", (req, res) => {
     res.send("Hello World!");
 });
