@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema({
 userSchema.methods.generateAccessToken = function(){
     return jwt.sign(
         {
-            _id: this._id,
+            userId: this._id,
             email: this.email,
             username: this.username,
             firstName: this.firstName,
@@ -54,7 +54,7 @@ userSchema.methods.generateAccessToken = function(){
 userSchema.methods.generateRefreshToken = function(){
     return jwt.sign(
         {
-            _id: this._id,
+            userId: this._id,
         },
         process.env.REFRESH_TOKEN_SECRET as string,
         {

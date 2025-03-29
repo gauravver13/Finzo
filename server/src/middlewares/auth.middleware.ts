@@ -1,15 +1,58 @@
+import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 
-export const authMiddleware = (req: any, res: any, next: any) => {
-    try {
-        const token = req.cookies?.accessToken || req.header("Authorization")?.split(" ")[1];
-        if(!token) {
-            return res.status(401).json({ message: "Unauthorized" });
+declare global {
+    namespace Express {
+        interface Request {
+            userId: string; // Remove optional marker
         }
-        const decoded = jwt.verify(token, process.env.JWT_SECRET!);
-        req.user = decoded;
-        next();
-    } catch (error: any) {
-        return res.status(500).json({ message: error.message });
     }
 }
+
+export const authMiddleware = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const authHeader = req.cookies?.accessToken || req.header("Authorization");
+
+        if (!authHeader || !authHeader.startsWith("Bearer")) {
+            res.status(401).json({ message: "Unauthorized" });
+            return;
+        }
+
+        const token = authHeader.startsWith("Bearer")
+            ? authHeader.split(" ")[1]
+            : authHeader;
+
+        if (!token) {
+            res.status(401).json({ message: "Unauthorized" });
+            return;
+        }
+
+        try {
+            const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!) as jwt.JwtPayload;
+
+            if (!decoded.userId) {
+                res.status(401).json({ message: "UserId not found in token" });
+                return;
+            }
+
+            req.userId = decoded.userId;
+            next();
+        } catch (error) {
+            res.status(401).json({ 
+                message: "Invalid token",
+                error
+            });
+            return;
+        }
+    } catch (error) {
+        res.status(500).json({ 
+            message: "Internal server error",
+            error
+        });
+        return;
+    }
+};

@@ -6,8 +6,8 @@ import bcrypt from "bcryptjs";
 
 const generateAccessAndRefreshTokens = async (userId: string) => {
     const user = await User.findById(userId) as any;
-    const accessToken = user.generateAccessToken(userId);
-    const refreshToken = user.generateRefreshToken(userId);
+    const accessToken = user.generateAccessToken();
+    const refreshToken = user.generateRefreshToken();
 
     return { accessToken, refreshToken };
 }

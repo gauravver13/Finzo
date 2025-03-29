@@ -1,10 +1,20 @@
 import express from "express";
 import connectDB from "./utils/db";
 import cors from "cors";
+import cookieParser from "cookie-parser";
+
+// Middleware
+import { authMiddleware } from "./middlewares/auth.middleware";
+
+// imported Routes
+import userRouter from "./routes/user.routes";
+import accountRouter from "./routes/account.routes";
+
 
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser()); // for parsing cookies
 app.use(cors()) // this can be modified!!
 
 
@@ -18,12 +28,7 @@ connectDB().then(() => {
     process.exit(1);
 });
 
-import { authMiddleware } from "./middlewares/auth.middleware";
 
-
-// imported Routes
-import userRouter from "./routes/user.routes";
-import accountRouter from "./routes/account.routes";
 
 // declared Routes:
 app.use("/api/v1/user", userRouter);

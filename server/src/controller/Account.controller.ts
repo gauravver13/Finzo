@@ -16,4 +16,4 @@ const transferMoney = async(req: any, res: any) => {
 export {
     balance,
     transferMoney
-}
+} 
