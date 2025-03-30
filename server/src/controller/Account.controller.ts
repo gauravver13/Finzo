@@ -51,6 +51,12 @@ const transferMoney = async(req: any, res: any) => {
         // if (!fromAccount || !toAccount) {
         //     throw new Error("Account not found");
         // }
+    } catch (error) {
+        console.error("Transaction aborted due to error: ", error);
+        await session.abortTransaction();
+        session.endSession();
+        return res.status(500).json({ message: "Transaction failed" });
+    }
 }
 
 export {
