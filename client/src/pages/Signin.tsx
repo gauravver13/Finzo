@@ -5,6 +5,7 @@ import { InputBox } from "../components/InputBox"
 import { SubHeading } from "../components/SubHeading"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import { BottomWarning } from "../components/BottomWarning"
 
 export const Signin = () => {
     const [emailUsername, setEmailUsername] = useState("");
@@ -37,6 +38,7 @@ export const Signin = () => {
                     <div className="pt-4">
                         <Button label={"Sign in"} onClick={handleSubmit} />
                     </div>
+                     <BottomWarning label={"Don't have an account?"} buttonText={"Sign up"} to={"/signup"} />
                 </div>
             </div>
         </div>

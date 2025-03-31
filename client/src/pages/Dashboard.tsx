@@ -8,6 +8,7 @@ export const Dashboard = () => {
             <Appbar />  
             <div className="m-8">
                 <Balance value={10000} />
+                {/* TODO: HI_STORY */}
                 <Users />
             </div>
         </>

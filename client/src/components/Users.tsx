@@ -29,7 +29,7 @@ export const Users = () => {
     }, [filter])
     return (
         <>
-            <div className="font-bold mt-6 text-lg">
+            <div className="font-semibold text-left mt-6 text-lg">
                 Users
             </div>
             <div className="my-2">
@@ -38,7 +38,7 @@ export const Users = () => {
                 }} placeholder={"Search Users..."} type="text"
                 className="w-full px-2 py-2 border rounded border-slate-200"></input>
             </div>
-            <div>
+            <div className=" flex flex-col py-4">
                 {/* {users.map(user => <User user={user} />)} */}
                 {filteredUsers.map((user, index) => (
                     <User key={index} user={user} />
@@ -80,14 +80,14 @@ function User({user}: {user: User }) {
     const navigate = useNavigate();
     return (
         <>
-            <div className="flex justify-between">
+            <div className="flex justify-between mt-2">
                 <div className="flex">
-                    <div className="rounded-full h-12 w-12 flex bg-slate-200 justify-center mt-1 mr-2">
+                    <div className="rounded-full h-12 w-12 flex bg-slate-200 justify-center mt-2 mr-2">
                         <div className="flex flex-col justify-center h-full text-xl">
                             {user.firstName[0]}
                         </div>
                     </div>
-                    <div className="">{user.firstName}</div>
+                    <div className=" mt-5">{user.firstName}</div>
                 </div>
 
                 <div className="flex flex-col justify-center h-full">

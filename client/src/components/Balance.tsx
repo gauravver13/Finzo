@@ -2,11 +2,11 @@
 
 export const Balance = ({ value }: { value: number }) => {
     return (
-        <div className="flex">
-            <div className="font-bold text-lg">
+        <div className="flex justify-between">
+            <div className="font-semibold text-lg">
                 Your balance
             </div>
-            <div className="font-semibold ml-4 text-lg">
+            <div className="font-mono ml-4 text-lg">
                 Rs. {value}
             </div>
         </div>
